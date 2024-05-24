@@ -1,7 +1,7 @@
+use std::collections::HashSet;
 use std::env;
 use std::fs::{self, DirEntry};
 use std::path::Path;
-use std::collections::HashSet;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -49,10 +49,14 @@ fn cleanup_directory<P: AsRef<Path>>(path: P) {
     }
 }
 
-
 fn move_file(entry: &DirEntry, path: &str, ext: &str) {
     let new_path = Path::new(path).join(ext).join(entry.file_name());
     if let Err(e) = fs::rename(&entry.path(), &new_path) {
-        eprintln!("Error moving file {:?} to {:?}: {:?}", entry.path(), new_path, e);
+        eprintln!(
+            "Error moving file {:?} to {:?}: {:?}",
+            entry.path(),
+            new_path,
+            e
+        );
     }
 }
